@@ -56,12 +56,12 @@ read -p "Press ENTER to begin installation
 From now until completion you will not have to interact with the script"
 #install vbox drivers
 if [ $kernel = n ]; then
-    sudo pacman -S --noconfirm virtualbox-host-modules-arch
+    sudo pacman -Sy --noconfirm virtualbox-host-modules-arch
     else
-    sudo pacman -S --noconfirm virtualbox-host-dkms
+    sudo pacman -Sy --noconfirm virtualbox-host-dkms
 fi
 #pacman
-yes | sudo pacman -S go nano devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
+yes | sudo pacman -Sy go nano devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
 #installing yay
 cd ~
 git clone https://aur.archlinux.org/yay.git
