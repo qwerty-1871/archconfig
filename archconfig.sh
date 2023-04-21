@@ -36,7 +36,7 @@ done
 #    fi
 #done
 #asks what type of kernel is being used
-echo Please enter your password
+echo "Please enter your password (this may be skipped if you have used 'sudo' recently)"
 sudo echo "Are you using a version of the kernel other than the default? (y/n)"
 echo Note that this includes linux-lts
 echo If you do not know the answer to this, it is probably no.
@@ -60,16 +60,18 @@ if [ $kernel = n ]; then
     else
     sudo pacman -Sy --noconfirm virtualbox-host-dkms
 fi
-#pacman
-yes | sudo pacman -Sy go nano devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
+#pacman, first replacing pacman.conf
+sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
+sudo pacman -Sy --noconfirm go nano devtools dkms xorg-server cinnamon lightdm lightdm-slick-greeter os-prober xed brasero rhythmbox libgpod gst-libav kpat xreader kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
 #installing yay
 cd ~
 git clone https://aur.archlinux.org/yay.git
 cd yay
-makepkg -sri
+yes | makepkg -sri
 rm -rf yay
 #using yay to install other AUR packages
-yes | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser pioneers spotify
+curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --import -
+yes | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser-git xplayer mintstick pioneers spotify
 #moving dotfiles
 sudo mv -f $sdr/backend/dotfiles/.bashrc ~
 sudo mv -f $sdr/backend/dotfiles/.nanorc ~
