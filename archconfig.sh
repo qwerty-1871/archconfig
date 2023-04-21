@@ -37,7 +37,8 @@ done
 #done
 #asks what type of kernel is being used
 echo "Please enter your password (this may be skipped if you have used 'sudo' recently)"
-sudo echo "Are you using a version of the kernel other than the default? (y/n)"
+sudo echo "Defaults timestamp_timeout=0" >> /etc/sudoers
+echo "Are you using a version of the kernel other than the default? (y/n)"
 echo Note that this includes linux-lts
 echo If you do not know the answer to this, it is probably no.
 while [ $kerneld != 'done' ]; do
@@ -71,7 +72,7 @@ yes | makepkg -sri
 rm -rf yay
 #using yay to install other AUR packages
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --import -
-yes | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser-git xplayer mintstick pioneers spotify
+yes | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap mintstick pioneers spotify
 #moving dotfiles
 sudo mv -f $sdr/backend/dotfiles/.bashrc ~
 sudo mv -f $sdr/backend/dotfiles/.nanorc ~
