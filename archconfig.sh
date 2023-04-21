@@ -54,7 +54,7 @@ done
 echo "Enter your password to begin installation
 From now until the end of the script you will not have to interact with your computer"
 sudo touch /etc/sudoers.d/passwd_timeout
-sudo bash -c "echo 'Defaults passwd_timeout=0' >> /etc/sudoers.d/passwd_timeout"
+sudo bash -c "echo 'Defaults timestamp_timeout=0' >> /etc/sudoers.d/timestamp_timeout"
 #begins installing packages
 #install vbox drivers
 if [ $kernel = n ]; then
@@ -75,7 +75,7 @@ cd ~
 rm -rf yay
 #using yay to install other AUR packages
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --import -
-yes | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap mintstick pioneers spotify
+echo -ne '\n' | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser-git xplayer-git mintstick pioneers spotify
 #moving dotfiles
 sudo mv -f $sdr/backend/dotfiles/.bashrc ~
 sudo mv -f $sdr/backend/dotfiles/.nanorc ~
