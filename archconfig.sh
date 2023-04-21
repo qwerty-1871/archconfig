@@ -80,5 +80,16 @@ sudo systemctl enable lightdm
 sudo systemctl enable bluetooth
 #end of the script
 echo The script has finished configuring your system
-echo After the script exits you may reboot your computer or continue in chroot
-read -p "Press ENTER to end the script"
+echo Thank you for using Archconfig. Please share any issues you had with the script on the Github. Feedback can be emailed to qwerty1871@gmail.com
+echo Enter 'reboot' if you would like the script to reboot your system or 'exit' if you would like the script to exit without reboot
+while [ $doned != 'done' ]; do
+    read done
+    case $done in
+    reboot)
+    reboot now ;;
+    exit)
+    exit ;;
+    *)
+    echo Invalid input
+    esac
+done
