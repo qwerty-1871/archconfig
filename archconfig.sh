@@ -4,6 +4,7 @@ begind='notdone'
 uidd='notdone'
 kerneld='notdone'
 doned='donenot'
+graphicsd='notdone'
 sdr=$PWD
 shopt -s lastpipe
 #check if script is being run as root; abort if not
@@ -50,6 +51,21 @@ while [ $kerneld != 'done' ]; do
     echo Invalid input ;;
     esac
 done
+echo "What type of graphics are you using?"
+echo "1) NVIDIA"
+echo "2) AMD"
+echo "3) Intel"
+while [ $graphics != 'done' ]; do
+    read graphics
+    case $graphics in
+    1)
+    graphicsd='done' ;;
+    2)
+    graphicsd='done' ;;
+    3) 
+    graphicsd='done' ;;
+    esac
+done
 #creates file to prevent sudo from being asked again
 echo "Enter your password to begin installation
 From now until the end of the script you will not have to interact with your computer"
@@ -64,7 +80,8 @@ if [ $kernel = n ]; then
 fi
 #pacman, first replacing pacman.conf
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
-sudo pacman -Sy --noconfirm go nano devtools dkms xorg-server cinnamon lightdm lightdm-slick-greeter os-prober xed brasero rhythmbox libgpod gst-libav kpat xreader kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
+sudo pacman -Sy --noconfirm xorg
+sudo pacman -Sy --noconfirm go nano devtools dkms cinnamon lightdm lightdm-slick-greeter os-prober xed brasero rhythmbox libgpod gst-libav kpat xreader kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
 #installing yay
 cd ~
 git clone https://aur.archlinux.org/yay.git
@@ -84,8 +101,6 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 #enabling services
 sudo systemctl enable lightdm
 sudo systemctl enable bluetooth
-#reenables password timeout by deleting the file created at the start of the script
-sudo rm /etc/sudoers.d/passwd_timeout
 #end of the script
 echo The script has finished configuring your system
 echo Thank you for using Archconfig. Please share any issues you had with the script on the Github. Feedback can be emailed to qwerty1871@gmail.com
@@ -94,8 +109,10 @@ while [ $doned != 'done' ]; do
     read done
     case $done in
     reboot)
-    reboot now ;;
+    sudo rm /etc/sudoers.d/timestamp_timeout
+    sudo reboot now ;;
     exit)
+    sudo rm /etc/sudoers.d/timestamp_timeout
     exit ;;
     *)
     echo Invalid input
