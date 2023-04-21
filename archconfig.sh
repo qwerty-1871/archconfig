@@ -36,8 +36,6 @@ done
 #    fi
 #done
 #asks what type of kernel is being used
-echo "Please enter your password (this may be skipped if you have used 'sudo' recently)"
-sudo echo "Defaults timestamp_timeout=0" >> /etc/sudoers
 echo "Are you using a version of the kernel other than the default? (y/n)"
 echo Note that this includes linux-lts
 echo If you do not know the answer to this, it is probably no.
@@ -52,9 +50,12 @@ while [ $kerneld != 'done' ]; do
     echo Invalid input ;;
     esac
 done
-#begins installing packages after user confirmation
-read -p "Press ENTER to begin installation
-From now until completion you will not have to interact with the script"
+#creates file to prevent sudo from being asked again
+echo "Enter your password to begin installation
+From now until the end of the script you will not have to interact with your computer"
+sudo touch /etc/sudoers.d/passwd_timeout
+sudo bash -c "echo 'Defaults passwd_timeout=0' >> /etc/sudoers.d/passwd_timeout"
+#begins installing packages
 #install vbox drivers
 if [ $kernel = n ]; then
     sudo pacman -Sy --noconfirm virtualbox-host-modules-arch
@@ -68,7 +69,9 @@ sudo pacman -Sy --noconfirm go nano devtools dkms xorg-server cinnamon lightdm l
 cd ~
 git clone https://aur.archlinux.org/yay.git
 cd yay
-yes | makepkg -sri
+makepkg
+sudo pacman -U --noconfirm /home/erika/yay/yay-*.pkg.tar.zst
+cd ~
 rm -rf yay
 #using yay to install other AUR packages
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --import -
@@ -81,6 +84,8 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 #enabling services
 sudo systemctl enable lightdm
 sudo systemctl enable bluetooth
+#reenables password timeout by deleting the file created at the start of the script
+sudo rm /etc/sudoers.d/passwd_timeout
 #end of the script
 echo The script has finished configuring your system
 echo Thank you for using Archconfig. Please share any issues you had with the script on the Github. Feedback can be emailed to qwerty1871@gmail.com
