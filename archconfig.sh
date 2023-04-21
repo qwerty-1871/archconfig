@@ -54,22 +54,31 @@ done
 #begins installing packages after user confirmation
 read -p "Press ENTER to begin installation
 From now until completion you will not have to interact with the script"
-exit
-pacman -S --noconfirm nano git devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
+#install vbox drivers
+if [ $kernel = n ]; then
+    sudo pacman -S --noconfirm virtualbox-host-modules-arch
+    else
+    sudo pacman -S --noconfirm virtualbox-host-dkms
+fi
+#pacman
+sudo pacman -S --noconfirm go nano devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
 #installing yay
 cd ~
 git clone https://aur.archlinux.org/yay.git
 cd yay
-makepkg -si
+makepkg -sri
 rm -rf yay
 #using yay to install other AUR packages
-echo y | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer pioneers spotify
+echo y | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser pioneers spotify
 #moving dotfiles
-mv -f $sdr/backend/dotfiles/.bashrc ~
-mv -f $sdr/backend/dotfiles/.nanorc ~
+sudo mv -f $sdr/backend/dotfiles/.bashrc ~
+sudo mv -f $sdr/backend/dotfiles/.nanorc ~
 sudo mv -f $sdr/backend/dotfiles/grub /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
+#enabling services
+sudo systemctl enable lightdm
+sudo systemctl enable bluetooth
 #end of the script
 echo The script has finished configuring your system
 echo After the script exits you may reboot your computer or continue in chroot
-read -p "Press ENTER to end the script
+read -p "Press ENTER to end the script"
