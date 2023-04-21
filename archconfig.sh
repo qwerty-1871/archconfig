@@ -61,7 +61,7 @@ if [ $kernel = n ]; then
     sudo pacman -S --noconfirm virtualbox-host-dkms
 fi
 #pacman
-sudo pacman -S --noconfirm go nano devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
+yes | sudo pacman -S go nano devtools dkms xorg-server xorg-xapps cinnamon lightdm lightdm-slick-greeter os-prober xed xviewer brasero rhythmbox libgpod gst-libav kpat kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
 #installing yay
 cd ~
 git clone https://aur.archlinux.org/yay.git
@@ -69,7 +69,7 @@ cd yay
 makepkg -sri
 rm -rf yay
 #using yay to install other AUR packages
-echo y | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser pioneers spotify
+yes | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None pamac-nosnap xplayer-plparser pioneers spotify
 #moving dotfiles
 sudo mv -f $sdr/backend/dotfiles/.bashrc ~
 sudo mv -f $sdr/backend/dotfiles/.nanorc ~
