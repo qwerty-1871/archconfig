@@ -54,7 +54,7 @@ done
 echo "Enter your password to begin installation
 From now until the end of the script you will not have to interact with your computer"
 sudo touch /etc/sudoers.d/passwd_timeout
-sudo bash -c "echo 'Defaults timestamp_timeout=0' >> /etc/sudoers.d/timestamp_timeout"
+sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
 #begins installing packages
 #install vbox drivers
 if [ $kernel = n ]; then
