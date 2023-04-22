@@ -72,6 +72,14 @@ From now until the end of the script you will not have to interact with your com
 sudo touch /etc/sudoers.d/passwd_timeout
 sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
 #begins installing packages
+#install graphics drivers
+if [ $graphics = 1 ]; then
+    pacman -Sy --noconfirm nvidia nvidia-utils
+    elif [ $graphics = 2 ]; then
+    pacman -Sy --noconfirm xf86-video-amdgpu mesa 
+    else
+    pacman -Sy --noconfirm xf86-video-intel mesa
+fi
 #install vbox drivers
 if [ $kernel = n ]; then
     sudo pacman -Sy --noconfirm virtualbox-host-modules-arch
