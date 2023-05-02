@@ -64,6 +64,8 @@ while [ $graphics != 'done' ]; do
     graphicsd='done' ;;
     3) 
     graphicsd='done' ;;
+    *)
+    echo Invalid input ;;
     esac
 done
 #creates file to prevent sudo from being asked again
@@ -89,7 +91,7 @@ fi
 #pacman, first replacing pacman.conf
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
 sudo pacman -Sy --noconfirm xorg
-sudo pacman -Sy --noconfirm go nano devtools dkms cinnamon lightdm lightdm-slick-greeter os-prober xed brasero rhythmbox libgpod gst-libav kpat xreader kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
+sudo pacman -Sy --noconfirm go nano devtools dkms cinnamon lightdm lightdm-slick-greeter os-prober xed brasero rhythmbox libgpod gst-libav kpat xreader gnome-terminal kmahjongg gnome-mines neofetch steam openssh bluez bluez-utils firefox-developer-edition virtualbox gnome-screenshot libreoffice-fresh gimp lutris libnotify speech-dispatcher hunspell-en_US networkmanager hexchat discord
 #installing yay
 cd ~
 git clone https://aur.archlinux.org/yay.git
@@ -105,6 +107,7 @@ echo -ne '\n' | yay -S --answerclean None --answerdiff None --answeredit None --
 sudo mv -f $sdr/backend/dotfiles/.bashrc ~
 sudo mv -f $sdr/backend/dotfiles/.nanorc ~
 sudo mv -f $sdr/backend/dotfiles/grub /etc/default/grub
+sudo mv -f $sdr/backend/dotfiles/lightdm.conf /etc/lightdm/lightdm.conf
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 #enabling services
 sudo systemctl enable lightdm
