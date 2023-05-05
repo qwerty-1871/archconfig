@@ -1,5 +1,12 @@
 #!/bin/bash
 #variables and other setup
+sudo_nt () {
+    #creates file to prevent sudo from being asked again
+    echo "Please enter your password now.
+    This will prevent you from needing to do it again while the script runs."
+    sudo touch /etc/sudoers.d/passwd_timeout
+    sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
+}
 begind='notdone'
 uidd='notdone'
 kerneld='notdone'
@@ -61,6 +68,10 @@ while [ $graphicsd != 'done' ]; do
     echo Invalid input ;;
     esac
 done
+if [ $begin = qwerty ]; then
+    sudo_nt
+    source $sdr/backend/qwerty.sh
+fi
 #asks what desktop the user would like to install
 echo "What desktop environment would you like to use?
 1) GNOME
@@ -151,14 +162,7 @@ If so, enter their exact names now. Do not use any seperation besides a single s
 Precision is important as mistyping the name of a package may break the command
 Simply enter nothing here if you do not wish to install anything else at this time"
 read packages
-#creates file to prevent sudo from being asked again
-echo "Please enter your password now.
-This will prevent you from needing to do it again while the script runs."
-sudo touch /etc/sudoers.d/passwd_timeout
-sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
-if [ $begin = qwerty ]; then
-    source $sdr/backend/qwerty.sh
-fi
+sudo_nt
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
 pacman -Sy --noconfirm networkmanager devtools dkms go nano
 if [ $graphics = 1 ]; then
