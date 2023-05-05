@@ -51,7 +51,7 @@ echo "What type of graphics are you using?
 1) NVIDIA
 2) AMD
 3) Intel"
-while [ $graphics != 'done' ]; do
+while [ $graphicsd != 'done' ]; do
     read graphics
     case $graphics in
     1 | 2 | 3)
@@ -100,7 +100,7 @@ while [ $blued != 'done' ]; do
     read blue
     case $blue in
     y | n)
-    yayd='done' ;;
+    blued='done' ;;
     h)
     echo Bluetooth is a short-range networking standard. Saying yes will install the bluez daemon and the blueman GUI ;;
     *)
