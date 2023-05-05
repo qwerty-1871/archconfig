@@ -10,6 +10,7 @@ yayd='notdone'
 vboxd='notdone'
 xwd='notdone'
 blued='notdone'
+spotifyd='notdone'
 sdr=$PWD
 shopt -s lastpipe
 #check if script is being run as root; abort if it is
@@ -155,7 +156,7 @@ echo "Please enter your password now.
 This will prevent you from needing to do it again while the script runs."
 sudo touch /etc/sudoers.d/passwd_timeout
 sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
-if [ $begin = qwerty ]; do
+if [ $begin = qwerty ]; then
     source $sdr/backend/qwerty.sh
 fi
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
