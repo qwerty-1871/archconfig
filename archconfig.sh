@@ -6,6 +6,9 @@ sudo_nt () {
     This will prevent you from needing to do it again while the script runs."
     sudo touch /etc/sudoers.d/passwd_timeout
     sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
+    read -p "The script will now begin installation
+    You will not need to interact with your system again until the script has finished
+    Press ENTER to continue"
 }
 begind='notdone'
 uidd='notdone'
@@ -37,7 +40,7 @@ while [ $begind != 'done' ]; do
     stop) 
         exit ;;
     qwerty)
-        ;;
+        begind='done' ;;
     *) echo "Invalid input" ;;
     esac
 done
@@ -180,24 +183,25 @@ fi
 if [[ $desktop = '2' || $desktop = '3' || $desktop = '4' ]]; then
     sudo pacman -Sy --noconfirm lightdm lightdm-slick-greeter
     sudo systemctl enable lightdm
-    sudo mv -f $sdr/backend/dotfiles/lightdm.conf /etc/lightdm/lightdm.con
+    sudo mv -f $sdr/backend/dotfiles/lightdm.conf /etc/lightdm/lightdm.conf
 fi
 if [[ $desktop = '1' ]]; then
-    sudo pacman -Sy gnome
+    sudo pacman -Sy --noconfirm gnome
     sudo systemctl enable gdm
 elif [[ $desktop = '2' ]]; then
-    sudo pacman -Sy plasma
+    sudo pacman -Sy --noconfirm plasma
 elif [[ $desktop = '3' ]]; then
-    sudo pacman -Sy cinnamon gnome-panel metacity gnome-screenshot
+    sudo pacman -Sy --noconfirm cinnamon gnome-panel metacity gnome-screenshot
 elif [[ $desktop = '4' ]]; then
-    sudo pacman -Sy xfce4
-    sudo pacman -Sy xfce4-goodies
+    sudo pacman -Sy --noconfirm xfce4
+    sudo pacman -Sy --noconfirm xfce4-goodies
 fi
 if [[ $blue = 'y' ]]; then
-    sudo pacman -Sy bluez bluez-utils blueman
+    sudo pacman -Sy --noconfirm bluez bluez-utils blueman
     sudo systemctl enable bluetooth
 fi
 if [[ $yay = 'y' ]]; then
+    sudo pacman -Sy --noconfirm go
     cd ~
     git clone https://aur.archlinux.org/yay.git
     cd yay
