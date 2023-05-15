@@ -2,8 +2,9 @@
 #variables and other setup
 sudo_nt () {
     #creates file to prevent sudo from being asked again
-    echo "Please enter your password now.
-    This will prevent you from needing to do it again while the script runs."
+    echo "Please enter your password now
+    This will prevent you from needing to do it again while the script runs
+    You may not have to do this if you have used sudo recently"
     sudo touch /etc/sudoers.d/passwd_timeout
     sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
     read -p "The script will now begin installation
@@ -79,7 +80,7 @@ fi
 echo "What desktop environment would you like to use?
 1) GNOME
 2) KDE Plasma
-3) Cinnamon
+
 4) Xfce
 5) None of the above"
 while [ $desktopd != 'done' ]; do
@@ -169,11 +170,11 @@ sudo_nt
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
 pacman -Sy --noconfirm networkmanager devtools dkms go nano
 if [ $graphics = 1 ]; then
-    pacman -Sy --noconfirm nvidia nvidia-utils
+    sudo pacman -Sy --noconfirm nvidia nvidia-utils
     elif [ $graphics = 2 ]; then
-    pacman -Sy --noconfirm xf86-video-amdgpu mesa 
+    sudo pacman -Sy --noconfirm xf86-video-amdgpu mesa 
     else
-    pacman -Sy --noconfirm xf86-video-intel mesa
+    sudo pacman -Sy --noconfirm xf86-video-intel mesa
 fi
 if [[ $desktop = '2' || $desktop = '3' || $desktop = '4' || $xw = '1' ]]; then
     sudo pacman -Sy --noconfirm xorg
