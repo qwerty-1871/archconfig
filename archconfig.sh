@@ -80,7 +80,6 @@ fi
 echo "What desktop environment would you like to use?
 1) GNOME
 2) KDE Plasma
-
 4) Xfce
 5) None of the above"
 while [ $desktopd != 'done' ]; do
