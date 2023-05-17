@@ -24,7 +24,8 @@ blued='notdone'
 spotifyd='notdone'
 officed='notdone'
 libred='notdone'
-office='0'
+libre='0'
+webd='notdone'
 sdr=$PWD
 shopt -s lastpipe
 #check if script is being run as root; abort if it is
@@ -109,6 +110,27 @@ if [ $desktop = '5' ]; then
         esac
     done
 fi
+#asks if the user would like to install a web browser
+echo "Would you like to install a web browser?
+Note that Chrome and Brave are only available from the AUR, and thus yay will be installed automatically if you choose them.
+1) Yes, Firefox (recommended)
+2) Yes, Firefox Developer Edition
+3) Yes, Chrome
+4) Yes, Chromium
+5) Yes, Opera
+6) Yes, Vivaldi
+7) Yes, Brave
+8) Yes, Midori
+9) No"
+while [ $webd != 'done' ]; do
+    read web
+    case $web in
+    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)
+    webd='done' ;;
+    *)
+    echo Invalid input ;;
+    esac
+done
 #asks if the user would like to install an office suite, if they choose libreoffice asks if they want the fresh branch or the still branch
 echo "Would you like to install an office suite?
 1) Yes, LibreOffice (recommended)
@@ -156,6 +178,7 @@ while [ $blued != 'done' ]; do
     esac
 done
 echo Would you like to install yay?
+if [[ $web != '3' && $web != '7']]; then
 while [ $yayd != 'done' ]; do
     read yay
     case $yay in
@@ -167,6 +190,9 @@ while [ $yayd != 'done' ]; do
     echo Invalid input ;;
     esac
 done
+else 
+yay='y'
+fi
 echo Would you like to install Virtualbox?
 while [ $vboxd != 'done' ]; do
     read vbox
@@ -199,8 +225,10 @@ Precision is important as mistyping the name of a package may break the command
 Simply enter nothing here if you do not wish to install anything else at this time"
 read packages
 sudo_nt
+#beginning of installation
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
 pacman -Sy --noconfirm networkmanager devtools dkms go nano
+#graphics drivers
 if [ $graphics = 1 ]; then
     sudo pacman -Sy --noconfirm nvidia nvidia-utils
     elif [ $graphics = 2 ]; then
@@ -208,6 +236,7 @@ if [ $graphics = 1 ]; then
     else
     sudo pacman -Sy --noconfirm xf86-video-intel mesa
 fi
+#display server, login manager, then desktop environment
 if [[ $desktop = '2' || $desktop = '3' || $desktop = '4' || $xw = '1' ]]; then
     sudo pacman -Sy --noconfirm xorg
 elif [[ $desktop = '1' || $xw = '2' ]]; then
@@ -229,6 +258,7 @@ elif [[ $desktop = '4' ]]; then
     sudo pacman -Sy --noconfirm xfce4
     sudo pacman -Sy --noconfirm xfce4-goodies
 fi
+#individual packages
 if [[ $blue = 'y' ]]; then
     sudo pacman -Sy --noconfirm bluez bluez-utils blueman
     sudo systemctl enable bluetooth
@@ -257,6 +287,25 @@ fi
 if [[ $spotify = 'y' ]]; then 
     echo -ne '\n' | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None spotify
 fi
+#web browser
+if [[ $web = '1' ]]; then
+    sudo pacman -Sy --noconfirm firefox
+elif [[ $web = '2' ]]; then
+    sudo pacman -Sy --noconfirm firefox-developer-edition
+elif [[ $web = '3' ]]; then
+    echo -ne '\n' | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None google-chrome
+elif [[ $web = '4' ]]; then
+    sudo pacman -Sy --noconfirm chromium
+elif [[ $web = '5' ]]; then
+    sudo pacman -Sy --noconfirm opera
+elif [[ $web = '6' ]]; then
+    sudo pacman -Sy --noconfirm vivaldi
+elif [[ $web = '7' ]]; then
+    echo -ne '\n' | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None brave
+elif [[ $web = '8' ]]; then
+    sudo pacman -Sy --noconfirm midori
+fi
+#office suite
 if [[ $libre = '1' ]]; then
     sudo pacman -Sy --noconfirm libreoffice-fresh
 elif [[ $libre = '2' ]]; then
@@ -266,5 +315,6 @@ elif [[ $office = '2' ]]; then
 elif [[ $office = '3' ]]; then
     sudo pacman -Sy --noconfirm freeoffice
 fi
+
 source $sdr/backend/end.sh
 exit
