@@ -22,6 +22,9 @@ vboxd='notdone'
 xwd='notdone'
 blued='notdone'
 spotifyd='notdone'
+officed='notdone'
+libred='notdone'
+office='0'
 sdr=$PWD
 shopt -s lastpipe
 #check if script is being run as root; abort if it is
@@ -76,7 +79,7 @@ if [ $begin = qwerty ]; then
     sudo_nt
     source $sdr/backend/qwerty.sh
 fi
-#asks what desktop the user would like to install
+#asks what desktop the user would like to install, if they choose none asks about installing a display server
 echo "What desktop environment would you like to use?
 1) GNOME
 2) KDE Plasma
@@ -101,6 +104,36 @@ if [ $desktop = '5' ]; then
         case $xw in
         1 | 2 | 3)
         xwd='done' ;;
+        *)
+        echo Invalid input ;;
+        esac
+    done
+fi
+#asks if the user would like to install an office suite, if they choose libreoffice asks if they want the fresh branch or the still branch
+echo "Would you like to install an office suite?
+1) Yes, LibreOffice (recommended)
+2) Yes, OnlyOffice
+3) Yes, FreeOffice
+3) No" 
+while [ $officed != 'done' ]; do
+    read office
+    case $office in
+    1 | 2 | 3)
+    officed='done' ;;
+    *)
+    echo Invalid input ;;
+    esac
+done
+if [[ $office = '1' ]]; then
+    echo "Would you like to install the fresh branch or the still branch?
+    The fresh branch recieves more updates but is less stable while the still branch recieves less update but is more stable
+    1) Fresh
+    2) Still"
+    while [ $libred != 'done' ]; do
+        read libre
+        case $libre in
+        1 | 2) 
+        libred='done' ;;
         *)
         echo Invalid input ;;
         esac
@@ -223,6 +256,15 @@ if [[ $vbox = 'y' ]]; then
 fi
 if [[ $spotify = 'y' ]]; then 
     echo -ne '\n' | yay -S --answerclean None --answerdiff None --answeredit None --answerupgrade None spotify
+fi
+if [[ $libre = '1' ]]; then
+    sudo pacman -Sy --noconfirm libreoffice-fresh
+elif [[ $libre = '2' ]]; then
+    sudo pacman -Sy --noconfirm libreoffice-still
+elif [[ $office = '2' ]]; then
+    sudo pacman -Sy --noconfirm onlyoffice-bin
+elif [[ $office = '3' ]]; then
+    sudo pacman -Sy --noconfirm freeoffice
 fi
 source $sdr/backend/end.sh
 exit
