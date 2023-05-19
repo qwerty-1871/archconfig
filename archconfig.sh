@@ -4,7 +4,7 @@ sudo_nt () {
     #creates file to prevent sudo from being asked again
     echo "Please enter your password now
     This will prevent you from needing to do it again while the script runs
-    You may not have to do this if you have used sudo recently"
+    (You may not have to do this if you have used sudo recently)"
     sudo touch /etc/sudoers.d/passwd_timeout
     sudo bash -c "echo 'Defaults timestamp_timeout=-1' >> /etc/sudoers.d/timestamp_timeout"
     read -p "The script will now begin installation
@@ -177,8 +177,8 @@ while [ $blued != 'done' ]; do
     echo Invalid input ;;
     esac
 done
+if [ $web != '3' ] && [ $web != '7'] ; then
 echo Would you like to install yay?
-if [[ $web != '3' && $web != '7']]; then
 while [ $yayd != 'done' ]; do
     read yay
     case $yay in
@@ -227,7 +227,8 @@ read packages
 sudo_nt
 #beginning of installation
 sudo mv -f $sdr/backend/dotfiles/pacman.conf /etc/pacman.conf
-pacman -Sy --noconfirm networkmanager devtools dkms go nano
+sudo pacman -Sy --noconfirm networkmanager devtools dkms go nano
+sudo pacman -Sy --noconfirm $packages 
 #graphics drivers
 if [ $graphics = 1 ]; then
     sudo pacman -Sy --noconfirm nvidia nvidia-utils
