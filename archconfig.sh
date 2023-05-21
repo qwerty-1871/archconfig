@@ -177,7 +177,7 @@ while [ $blued != 'done' ]; do
     echo Invalid input ;;
     esac
 done
-if [ $web != '3' ] && [ $web != '7'] ; then
+if [ $web != '3' ] && [ $web != '7']; then
 echo Would you like to install yay?
 while [ $yayd != 'done' ]; do
     read yay
