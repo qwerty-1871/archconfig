@@ -5,6 +5,9 @@ Archconfig is a bash script that allows a user to configure and customize Arch L
 
 Archconfig is currently incomplete and not recommended for regular usage. I would greatly appreciate any feedback or error reports. Feel free to contact me at bqwerty1871@gmail.com.
 
+![image](https://github.com/qwerty-1871/archconfig/assets/60716753/756d696d-76e4-46d0-a033-815507ed4388)
+
+
 ## Brief installation guide
 This is intended for users with a good understanding of Arch Linux. If you need more help see the detailed guide below this one.
 First, boot up the latest Arch iso on the computer you wish to install to. Then connect to the internet and run Archinstall with the following settings set:
